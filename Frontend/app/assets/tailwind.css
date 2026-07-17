@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+/**
+ * Velvet & Gold — "The Ranking Room" design tokens (option 1b/2a)
+ * Tailwind CSS v4 — CSS-first config via @theme.
+ * Fonts: load via Google Fonts —
+ * Cormorant Garamond (500,600 + italic) for display, Archivo (400–700) for UI.
+ */
+
+@theme {
+    /* ---------- Surfaces ---------- */
+    --color-ink: #100d0e;
+    /* page background */
+    --color-panel: #161113;
+    /* side panel / sheets */
+    --color-card: #1d1719;
+    /* result cards, hover surfaces */
+    --color-field: #0f0c0d;
+    /* inputs */
+
+    /* ---------- Lines ---------- */
+    --color-line: #2c2420;
+    /* panel dividers */
+    --color-edge: #3a3128;
+    /* input & card borders */
+    --color-edge-strong: #4a3d28;
+    /* poster outlines */
+
+    /* ---------- Text ---------- */
+    --color-cream: #efe6d8;
+    /* primary text */
+    --color-parchment: #bfb4a2;
+    /* secondary text */
+    --color-bronze: #8d7a58;
+    /* labels, meta, mono captions */
+    --color-faded: #5c5347;
+    /* hints, footers */
+
+    /* ---------- Accent ---------- */
+    --color-gold: #d9a441;
+    /* primary accent: focus, drag, active tier */
+
+    /* ---------- Tier scale (S → G) ---------- */
+    --color-tier-s: #d9a441;
+    --color-tier-a: #c8b98a;
+    --color-tier-b: #a09a8c;
+    --color-tier-c: #6f6a60;
+    --color-tier-d: #4d4a44;
+    --color-tier-g: #7a4040;
+
+    /* ---------- Fonts ---------- */
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    /* titles, tier letters (italic for headings) */
+    --font-sans: Archivo, system-ui, sans-serif;
+    /* UI text */
+    --font-mono: ui-monospace, Menlo, monospace;
+    /* uppercase micro-labels */
+
+    /* ---------- Font sizes (paired with line-height / weight) ---------- */
+    --text-tier-letter: 52px;
+    --text-tier-letter--line-height: 1;
+    --text-tier-letter--font-weight: 600;
+
+    --text-tier-letter-sm: 34px;
+    --text-tier-letter-sm--line-height: 1;
+    --text-tier-letter-sm--font-weight: 600;
+
+    --text-micro: 9px;
+    --text-micro--letter-spacing: 1px;
+
+    --text-label: 14px;
+    --text-label--letter-spacing: 2px;
+
+    /* ---------- Border radius ---------- */
+    --radius-poster: 3px;
+    --radius-input: 8px;
+    --radius-card: 9px;
+    --radius-pill: 99px;
+    --radius-sheet: 18px;
+
+    /* ---------- Spacing ---------- */
+    --spacing-poster-w: 72px;
+    --spacing-poster-h: 108px;
+    --spacing-poster-w-sm: 56px;
+    --spacing-poster-h-sm: 84px;
+    --spacing-tier-label: 76px;
+    /* fixed width of the letter column */
+    --spacing-tier-row: 116px;
+    /* min row height (92px on mobile) */
+
+    /* ---------- Shadows ---------- */
+    --shadow-poster-s: 0 6px 18px rgba(217, 164, 65, 0.15);
+    /* S-tier glow */
+    --shadow-drag:
+        0 18px 40px rgba(0, 0, 0, 0.7), 0 0 24px rgba(217, 164, 65, 0.3);
+    --shadow-sheet: 0 -14px 36px rgba(0, 0, 0, 0.6);
+    --shadow-focus-gold: 0 0 0 3px rgba(217, 164, 65, 0.12);
+
+    /* ---------- Background images ---------- */
+    --background-image-poster-placeholder: repeating-linear-gradient(
+        45deg,
+        #241e18,
+        #241e18 7px,
+        #2b241c 7px,
+        #2b241c 14px
+    );
+}
+
+/*
+ * Usage patterns (matching the mockups):
+ *
+ * Tier letter column:  w-tier-label border-r-2 border-tier-s font-display text-tier-letter text-tier-s
+ * Poster tile:         w-poster-w h-poster-h rounded-poster bg-poster-placeholder outline outline-1 outline-edge-strong
+ * Drop slot:           border border-dashed border-gold bg-gold/[.08] rounded-poster
+ * Dragged poster:      rotate-6 shadow-drag outline-gold
+ * Search input:        bg-field border border-edge rounded-input text-cream focus:border-gold focus:shadow-focus-gold
+ * Micro caption:       font-mono text-micro text-bronze uppercase
+ * Remove badge:        bg-tier-g border border-[#a05555] rounded-full text-[#f0e0d8]
+ */
