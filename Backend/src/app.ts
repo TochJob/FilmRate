@@ -1,11 +1,13 @@
-import fastify from "fastify";
+import fastify from 'fastify'
+import { authRoutes } from './routes/auth.js'
 
-export function buildApp(){
-    const app = fastify({logger:true});
+export async function buildApp() {
+  const app = fastify({ logger: true })
 
-    app.get('/helth', async (request, reply) => {
-        return {status: 'ok'};
-    })
+  await app.register(authRoutes)
+  app.get('/helth', async (request, reply) => {
+    return { status: 'ok' }
+  })
 
-    return app;
+  return app
 }
