@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "",
@@ -31,6 +33,7 @@
     "@types/node": "^26.1.0",
     "@types/pg": "^8.20.0",
     "drizzle-kit": "^0.31.10",
+    "prettier": "^3.9.5",
     "tsx": "^4.23.0",
     "typescript": "^6.0.3"
   }
