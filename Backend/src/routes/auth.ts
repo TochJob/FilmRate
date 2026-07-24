@@ -3,11 +3,18 @@ import { z } from 'zod'
 import argon2 from 'argon2'
 import { db } from '../db/index.js'
 import { users } from '../db/schema.js'
+import { createSession, destroySession } from '../lib/session.js'
+import { eq } from 'drizzle-orm'
 
 const registerSchema = z.object({
   email: z.email(),
   username: z.string().min(3).max(30),
   password: z.string().min(8).max(128),
+})
+
+const loginSchema = z.object({
+  email: z.email(),
+  password: z.string().min(1),
 })
 
 export async function authRoutes(app: FastifyInstance) {
@@ -38,5 +45,34 @@ export async function authRoutes(app: FastifyInstance) {
       }
       throw e
     }
+  })
+  app.post('/auth/login', async (request, reply) => {
+    const parsed = loginSchema.safeParse(request.body)
+
+    if (!parsed.success) {
+      return reply.status(400).send({ error: 'Invalid request body' })
+    }
+
+    const { email, password } = parsed.data
+
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, email),
+    })
+
+    if (!user || !(await argon2.verify(user.passwordHash, password))) {
+      return reply.status(401).send({ error: 'Invalid email or password' })
+    }
+
+    const session = await createSession(user.id)
+
+    reply.setCookie('sessionId', session.id, {
+      path: '/',
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      expires: session.expiresAt,
+    })
+
+    return { user: { id: user.id, email: user.email, username: user.username } }
   })
 }
