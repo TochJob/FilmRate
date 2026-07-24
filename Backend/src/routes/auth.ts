@@ -75,4 +75,19 @@ export async function authRoutes(app: FastifyInstance) {
 
     return { user: { id: user.id, email: user.email, username: user.username } }
   })
+  app.post('/auth/logout', async (request, reply) => {
+    const sessionId = request.cookies.sessionId
+
+    if (!sessionId) {
+      return reply.status(400).send({ error: 'No session found' })
+    }
+
+    await destroySession(sessionId)
+
+    reply.clearCookie('sessionId', {
+      path: '/',
+    })
+
+    return { ok: true }
+  })
 }
