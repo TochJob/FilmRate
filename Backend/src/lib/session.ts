@@ -15,5 +15,24 @@ export async function createSession(userId: number) {
     expiresAt,
   })
 
-  return { id, userId }
+  return { id, expiresAt }
+}
+
+export async function validateSession(sessionId: string) {
+  const session = await db.query.sessions.findFirst({
+    where: eq(sessions.id, sessionId),
+  })
+
+  if (!session) return null
+
+  if (session.expiresAt < new Date()) {
+    await destroySession(sessionId)
+    return null
+  }
+
+  return session
+}
+
+export async function destroySession(sessionId: string) {
+  await db.delete(sessions).where(eq(sessions.id, sessionId))
 }
