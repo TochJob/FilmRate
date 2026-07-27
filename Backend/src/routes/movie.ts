@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
-import { tmdbFetch } from '../lib/tmdb.js'
+import { tmdbFetchCached } from '../lib/tmdb.js'
 
 const searchQuerySchema = z.object({
   q: z.string().min(1),
@@ -18,7 +18,7 @@ export async function movieRoutes(app: FastifyInstance) {
       return reply.status(400).send({ error: 'Query parameter "q" is required' })
     }
     const { q, page } = parsed.data
-    const data = await tmdbFetch('/search/movie', {
+    const data = await tmdbFetchCached('search/movie', {
       query: q,
       page: String(page),
     })
@@ -26,14 +26,14 @@ export async function movieRoutes(app: FastifyInstance) {
     return data
   })
 
-  app.get('/moviee/:tmbdId', async (requst, reply) => {
+  app.get('/movies/:tmbdId', async (requst, reply) => {
     const parsed = movieParamsSchema.safeParse(requst.params)
 
     if (!parsed.success) {
       return reply.status(400).send({ error: 'Invalid movie id' })
     }
 
-    const data = await tmdbFetch(`/movie/${parsed.data.tmdbId}`)
+    const data = await tmdbFetchCached(`movie/${parsed.data.tmdbId}`)
     return data
   })
 }
