@@ -5,6 +5,7 @@ import fastifyCookie from '@fastify/cookie'
 export async function buildApp() {
   const app = fastify({ logger: true })
   await app.register(fastifyCookie)
+  app.decorateRequest('currentUser', null)
 
   await app.register(authRoutes)
   app.get('/helth', async (request, reply) => {
