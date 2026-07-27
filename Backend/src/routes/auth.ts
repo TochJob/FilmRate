@@ -4,6 +4,7 @@ import argon2 from 'argon2'
 import { db } from '../db/index.js'
 import { users } from '../db/schema.js'
 import { createSession, destroySession } from '../lib/session.js'
+import { requireAuth } from '../lib/require-auth.js'
 import { eq } from 'drizzle-orm'
 
 const registerSchema = z.object({
@@ -89,5 +90,8 @@ export async function authRoutes(app: FastifyInstance) {
     })
 
     return { ok: true }
+  })
+  app.get('/auth/me', { preHandler: requireAuth }, async (request, reply) => {
+    return { user: request.currentUser }
   })
 }
