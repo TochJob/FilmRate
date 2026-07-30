@@ -15,6 +15,13 @@
       "when": 1784717954091,
       "tag": "0001_flashy_galactus",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785412828994,
+      "tag": "0002_cuddly_hiroim",
+      "breakpoints": true
     }
   ]
 }
